@@ -12,18 +12,6 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 		root = null;
 	}
 	
-	/*
-	 * add
-	 * remove
-	 * isElement
-	 * isEmpty
-	 * setSize
-	 * union
-	 * intersection
-	 * difference
-	 * subset
-	 */
-	
 	/**
 	 * Add an element to a BST.
 	 * @param z
@@ -35,8 +23,8 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 		
 		while (x != null) {
 			y = x;
-			// the line that fixed duplicates
-			if (z.getElement() == x.getElement()) return;
+			// check for duplicates
+			if (z.getElement().compareTo(x.getElement()) == 0) return;
 			
 			if (z.getElement().compareTo(x.getElement()) < 0) { 
 				x = x.getLeft();
@@ -130,9 +118,6 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 		return 1 + setSize(x.getLeft()) + setSize(x.getRight());
 	}
 	
-
-
-	
 	/**
 	 * Returns the union of two sets.
 	 * 
@@ -175,10 +160,7 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 		
 		return setDifference;
 	}
-	
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	
+		
 	/**
 	 * Return the height of a given BST.
 	 * @return
@@ -276,22 +258,18 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 		
 		@Override
 		public E next() {
-			E data = cursor.key;
+			E data = cursor.getElement();
 			
-			if (cursor.left != null) {
-				cursor = cursor.left;
-			} else if (cursor.right != null) {
-				cursor = cursor.right;
+			if (cursor.getLeft() != null) {
+				cursor = cursor.getLeft();
+			} else if (cursor.getRight() != null) {
+				cursor = cursor.getRight();
 			} else {
 				cursor = null;
 			}
-			
 			return data;
 		}
-
 	}
-	
-
 	
 	private class Node<T> {
 		private T key;
@@ -304,14 +282,14 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 			this.parent = null;
 		}
 		
-	    public T  getElement()	{ return key; }
+	    public T  getElement()			{ return key; }
 	    public Node<T> getLeft()		{ return left; }
 	    public Node<T> getRight()		{ return right; }
 	    public Node<T> getParent()		{ return parent; }
 
-	    public void setElement(T e) 		{ key = e; }
+	    public void setElement(T e) 			{ key = e; }
 	    public void setLeft(Node<T> node) 		{ left = node; if (node != null) node.setParent(this); }
-	    public void setRight(Node<T> node) 	{ right = node; if (node != null) node.setParent(this); }
+	    public void setRight(Node<T> node) 		{ right = node; if (node != null) node.setParent(this); }
 	    public void setParent(Node<T> node) 	{ parent = node; }  
 		
 	    public boolean hasLeft() 		{ return left != null; }
@@ -341,13 +319,3 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	}
 	
 }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-

@@ -13,18 +13,6 @@ public class DLL<T> implements DynamicSet<T> {
 		tail = null;
 	}
 	
-	/*
-	 * add
-	 * remove
-	 * isElement
-	 * isEmpty
-	 * setSize
-	 * union
-	 * intersection
-	 * difference
-	 * subset
-	 */
-	
 	public void add (T t) {
 		if (t == null || this.search(t) != null) return;
 		
@@ -75,7 +63,7 @@ public class DLL<T> implements DynamicSet<T> {
 		int count = 0;
 		while(cursor!=null) {
 			count++;
-			cursor = cursor.next;
+			cursor = cursor.getNext();
 		}
 		
 		return count;
@@ -106,11 +94,7 @@ public class DLL<T> implements DynamicSet<T> {
 		setDifference = difference(setDifference, T);
 		
 		return setDifference;
-		
 	}
-
-	
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Node<T> search(T t) {
 		Node<T> n = head;
@@ -119,30 +103,13 @@ public class DLL<T> implements DynamicSet<T> {
 		}
 		return n;
 	}
-
-	
-	/**
-	 * removes and returns the first element of the linked list
-	 * returns null if empty
-	 * 
-	 * @return the first key in the linked list
-	 */
-	public T popHead() {
-		if(head == null)
-			return null;
-		T out = head.key;
-		head = head.next;
-		return out;
-	}
 	
 	/**
 	 * Iterator
 	 * @author tomas
 	 *
 	 * @param <E>
-	 */
-	
-	
+	 */	
 	public Iterator<T> iterator() {
 		return new DLLIterator<T>(this);
 	}
@@ -161,8 +128,8 @@ public class DLL<T> implements DynamicSet<T> {
 
 		@Override
 		public E next() {
-			E data = cursor.key;
-			cursor = cursor.next;
+			E data = cursor.getElement();
+			cursor = cursor.getNext();
 			return data;
 		}
 	}
@@ -183,7 +150,7 @@ public class DLL<T> implements DynamicSet<T> {
 			this.next = null;
 		}
 		
-	    public T  getElement() 	{ return key; }
+	    public T  getElement() 			{ return key; }
 	    public Node<T> getPrev() 		{ return prev; }
 	    public Node<T> getNext() 		{ return next; }
 		

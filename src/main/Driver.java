@@ -13,23 +13,27 @@ public class Driver {
 	public static void main(String[] args) throws NumberFormatException, IOException {		
 		
 		//get and populate required data
-		List<Integer> fileData = getFileData("ints.txt");
+		List<Integer> fileData = getFileData("int20k.txt");
 		List<Integer> randList = new ArrayList<>(100);
 		
+		// generate random numbers
 		for(int i = 0; i < 100; i++) {
 			int rand = (int)(Math.random() * 49999 + 1);
 			randList.add(rand);
 		}
 		
+		// Create sets 
 		DynamicSet<Integer> linkedList = new DLL<>();
 		BST<Integer> binaryTree = new BST<>();
 		
-		System.out.println("\nAdding values to DLL. . .\n");
+		// Add values to DLL dynamic set
+		System.out.println("\nAdding values to DLL. . .");
 		for(int val : fileData) {
 			linkedList.add(val);
 		}
 		
-		System.out.println("\nAdding values to BST. . .\n");
+		// Add values to BST dynamic set
+		System.out.println("\nAdding values to BST. . .");
 		for(int val : fileData) {
 			binaryTree.add(val);
 		}
@@ -37,8 +41,35 @@ public class Driver {
 		System.out.println("\nHeight of BST: "+ binaryTree.getHeight());
 		System.out.println("\nSize of BST: "+ binaryTree.setSize());
 		System.out.println("\nSize of DLL: "+ linkedList.setSize());
+		
+		
+		// compare the two implementations of dynamic set
+		double avgDLL, avgBST;
+		
+		avgDLL = calculateRunningTime(linkedList, randList);
+		avgBST = calculateRunningTime(binaryTree, randList);
+		
+		System.out.println("\nDLL average time: " + avgDLL);
+		System.out.println("\nBST average time: " + avgBST);
 	}
 	
+	private static double calculateRunningTime(DynamicSet<Integer> set, List<Integer> randomInts) {
+		long time1, time2;
+		double avg;
+		
+		time1 = System.nanoTime();
+		
+		// run isElement on the random numbers
+		for(int val: randomInts) {
+			set.isElement(val);
+		}
+		
+		time2 = System.nanoTime();
+		
+		avg = (double)(time2 - time1) / randomInts.size();
+		
+		return avg;
+	}
 	
 	private static List<Integer> getFileData(String filename) throws NumberFormatException, IOException{
 		
