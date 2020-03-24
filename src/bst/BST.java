@@ -156,10 +156,8 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 		DynamicSet<T> setIntersection = new BST<>();
 		
 		for(T val : this) {
-			for(T val2 : T) {
-				if (val.compareTo(val2) == 0) {
-					setIntersection.add(val);
-				}
+			if (T.isElement(val)) {
+				setIntersection.add(val);
 			}
 		}
 
@@ -174,18 +172,10 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	 */
 	public DynamicSet<T> difference(DynamicSet<T> T) {
 		DynamicSet<T> setDifference = new BST<>();
-		boolean isPresent = false;
 		
 		for(T val : this) {
-			for(T val2 : T) {
-				if (val.compareTo(val2) == 0) {
-					isPresent = true;
-				}
-			}
-			if (!isPresent) {
+			if (!T.isElement(val)) {
 				setDifference.add(val);
-			} else {
-				isPresent = false;
 			}
 		}
 		
@@ -196,15 +186,8 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 		// If S is larger than T, S cannot be a subset of T - return false
 		if (this.setSize() > otherSet.setSize()) { return false; }
 		
-		boolean isPresent = false;
-		
 		for (T n : this) {
-			for (T x : otherSet) {
-				if (n.compareTo(x) == 0) {
-					isPresent = true;
-				}				
-			}
-			if (!isPresent) {
+			if (!otherSet.isElement(n)) {
 				return false;
 			}
 		}
@@ -270,19 +253,19 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	 * @param key
 	 * @return
 	 */
-	public Node<T> search(T key) {
-		return search(root, key);
-	}
 	
-	private Node<T> search(Node<T> x, T key) {
-		if (x == null || x.getElement().compareTo(key) == 0) {
-			return x;
+	public Node<T> search(T key) {
+		Node<T> cursor = root;
+
+		while (cursor != null && !(cursor.key.compareTo(key) == 0)) {
+			if (cursor.key.compareTo(key) < 0) {
+				cursor = cursor.getRight();
+			}
+			if (cursor.key.compareTo(key) > 0) {
+				cursor = cursor.getLeft();
+			}
 		}
-		if (x.getElement().compareTo(key) < 0) {
-			return search(x.getLeft(), key);
-		} else {
-			return search(x.getRight(), key);
-		}
+		return cursor;
 	}
 	
 	@Override

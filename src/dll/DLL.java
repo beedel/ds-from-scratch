@@ -84,10 +84,11 @@ public class DLL<T> implements DynamicSet<T> {
 	}
 	
 	public Node<T> popHead() {
-		if(head == null)
+		if(head == null) {
 			return null;
+		}
 		Node<T> out = head;
-		head = head.next;
+		head = head.getNext();
 		return out;
 	}
 
