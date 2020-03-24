@@ -56,7 +56,8 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	 */
 	public void remove(T key) {
 		// fix this, should find it
-		Node<T> n = new Node<T>(key);
+		Node<T> n = search(key);
+		if (n == null) return;
 		if (!n.hasLeft()) {
 			transplant(n, n.getRight());
 		} else if (!n.hasRight()) {
@@ -159,6 +160,7 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 			if (T.isElement(val)) {
 				setIntersection.add(val);
 			}
+
 		}
 
 		return setIntersection;
@@ -258,11 +260,12 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 		Node<T> cursor = root;
 
 		while (cursor != null && !(cursor.key.compareTo(key) == 0)) {
-			if (cursor.key.compareTo(key) < 0) {
-				cursor = cursor.getRight();
+			int val = cursor.key.compareTo(key);
+			if (val < 0) {
+				cursor = cursor.right;
 			}
-			if (cursor.key.compareTo(key) > 0) {
-				cursor = cursor.getLeft();
+			if (val > 0) {
+				cursor = cursor.left;
 			}
 		}
 		return cursor;

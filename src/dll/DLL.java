@@ -31,9 +31,9 @@ public class DLL<T> implements DynamicSet<T> {
 	}
 	
 	public void remove(T key) {
-		Node<T> x = this.search(key);
+		Node<T> x = search(key);
 		
-		if (search(x.getElement()) == null) return;
+		if (x == null) return;
 		// check if x is not head
 		// if it is not, delete the value
 		if (x.getPrev() != null) {

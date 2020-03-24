@@ -52,32 +52,44 @@ public class Driver {
 		
 		// testing
 		
-		System.out.println();
+//		System.out.println();
+//		
+//		List<Integer> fileData2 = getFileData("int10.txt");
+//		List<Integer> fileData3 = getFileData("int10-2.txt");
+//		
+//		DLL<Integer> linkedList2 = new DLL<>();
+//		DLL<Integer> linkedList3 = new DLL<>();
+//		BST<Integer> binaryTree2 = new BST<>();
+//		BST<Integer> binaryTree3 = new BST<>();
+//		
+//		addData(fileData2, linkedList2);
+//		addData(fileData3, linkedList3);
+//		addData(fileData2, binaryTree2);
+//		addData(fileData3, binaryTree3);
 		
-		List<Integer> fileData2 = getFileData("int10.txt");
-		List<Integer> fileData3 = getFileData("int10-2.txt");
+//		System.out.println();
+//		System.out.println(linkedList2.union(linkedList3).setSize());
+//		System.out.println(linkedList2.intersection(linkedList3).setSize());
+//		System.out.println(linkedList2.difference(linkedList3).setSize());
+//		System.out.println(linkedList2.subset(linkedList3));
+//		
+//		System.out.println();
+//		System.out.println(binaryTree2.union(binaryTree3).setSize());
+//		System.out.println(binaryTree2.intersection(binaryTree3).setSize());
+//		System.out.println(binaryTree2.difference(binaryTree3).setSize());
+//		System.out.println(binaryTree2.subset(binaryTree3));
+
+		// remove existing value
+//		linkedList.remove(2);
+//		System.out.println(linkedList.setSize());
+//		binaryTree.remove(2);
+//		System.out.println(binaryTree.setSize());
 		
-		DLL<Integer> linkedList2 = new DLL<>();
-		DLL<Integer> linkedList3 = new DLL<>();
-		BST<Integer> binaryTree2 = new BST<>();
-		BST<Integer> binaryTree3 = new BST<>();
-		
-		addData(fileData2, linkedList2);
-		addData(fileData3, linkedList3);
-		addData(fileData2, binaryTree2);
-		addData(fileData3, binaryTree3);
-		
-		System.out.println();
-		System.out.println(linkedList2.union(linkedList3).setSize());
-		System.out.println(linkedList2.intersection(linkedList3).setSize());
-		System.out.println(linkedList2.difference(linkedList3).setSize());
-		System.out.println(linkedList2.subset(linkedList3));
-		
-		System.out.println();
-		System.out.println(binaryTree2.union(binaryTree3).setSize());
-		System.out.println(binaryTree2.intersection(binaryTree3).setSize());
-		System.out.println(binaryTree2.difference(binaryTree3).setSize());
-		System.out.println(binaryTree2.subset(binaryTree3));
+		// remove non-existent value
+//		linkedList.remove(20);
+//		System.out.println(linkedList.setSize());
+//		binaryTree.remove(20);
+//		System.out.println(binaryTree.setSize());
 	}
 	
 	private static void addData(List<Integer> data, DynamicSet<Integer> structure) {
