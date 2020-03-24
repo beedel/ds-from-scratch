@@ -13,10 +13,10 @@ public class DLL<T> implements DynamicSet<T> {
 		tail = null;
 	}
 	
-	public void add (T t) {
-		if (t == null || this.search(t) != null) return;
+	public void add (T key) {
+		if (key == null || this.search(key) != null) return;
 		
-		Node<T> x = new Node<>(t);
+		Node<T> x = new Node<>(key);
 		// if list is empty
 		if (head == null) {
 			head = x;
@@ -65,24 +65,41 @@ public class DLL<T> implements DynamicSet<T> {
 			count++;
 			cursor = cursor.getNext();
 		}
-		
 		return count;
 	}
 	
 	@Override
-	public DynamicSet<T> union(DynamicSet<T> T) {
+	public DynamicSet<T> union(DynamicSet<T> otherSet) {
 		DynamicSet<T> setUnion = new DLL<>();
 		
-		setUnion = union(setUnion, T);
+		for(T val : this) {
+			setUnion.add(val);
+		}
+			
+		for(T val : otherSet) {
+			setUnion.add(val);	
+		}
 				
 		return setUnion;
+	}
+	
+	public Node<T> popHead() {
+		if(head == null)
+			return null;
+		Node<T> out = head;
+		head = head.next;
+		return out;
 	}
 
 	@Override
 	public DynamicSet<T> intersection(DynamicSet<T> T) {
 		DynamicSet<T> setIntersection = new DLL<>();
 		
-		setIntersection = intersection(setIntersection, T);
+		for(T val : this) {
+			if(T.isElement(val)) {
+				setIntersection.add(val);
+			}
+		}
 		
 		return setIntersection;
 	}
@@ -91,14 +108,34 @@ public class DLL<T> implements DynamicSet<T> {
 	public DynamicSet<T> difference(DynamicSet<T> T) {
 		DynamicSet<T> setDifference = new DLL<>();
 		
-		setDifference = difference(setDifference, T);
+		for(T val : this) {
+			if(!T.isElement(val)) {
+				setDifference.add(val);
+			}
+		}
 		
 		return setDifference;
 	}
 	
+	public boolean subset(DynamicSet<T> otherSet) {
+		// If S is larger than T, S cannot be a subset of T - return false
+		if (this.setSize() > otherSet.setSize()) { return false; }
+		
+		for (T n : this) {
+			// Check if an element of S is present in T
+			if (!otherSet.isElement(n)) {
+				// if not, return false
+				return false;
+			}
+		}
+		
+		// If all elements are present, return true
+		return true;
+	}
+	
 	public Node<T> search(T t) {
 		Node<T> n = head;
-		while (n != null && !n.getElement().equals(t)) {
+		while (n != null && n.getElement() != t) {
 			n = n.getNext();
 		}
 		return n;
@@ -111,13 +148,13 @@ public class DLL<T> implements DynamicSet<T> {
 	 * @param <E>
 	 */	
 	public Iterator<T> iterator() {
-		return new DLLIterator<T>(this);
+		return new MyIterator<T>(this);
 	}
 	
-	private class DLLIterator<E> implements Iterator<E> {
+	private class MyIterator<E> implements Iterator<E> {
 		Node<E> cursor;
 		
-		public DLLIterator(DLL<E> arg){
+		public MyIterator(DLL<E> arg){
 			cursor = arg.head;		
 		}
 
@@ -140,7 +177,7 @@ public class DLL<T> implements DynamicSet<T> {
 	 *
 	 * @param <T>
 	 */
-	private static class Node<T> {
+	public static class Node<T> {
 		private T key;
 		private Node<T> prev, next;
 		

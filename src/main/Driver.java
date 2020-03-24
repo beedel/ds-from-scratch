@@ -12,45 +12,78 @@ import dll.DLL;
 public class Driver {
 	public static void main(String[] args) throws NumberFormatException, IOException {		
 		
-		//get and populate required data
-		List<Integer> fileData = getFileData("int20k.txt");
-		List<Integer> randList = new ArrayList<>(100);
+		// get and populate required data
+		List<Integer> fileData = getFileData("ints.txt");
+		List<Integer> randInts = new ArrayList<>(100);
 		
 		// generate random numbers
 		for(int i = 0; i < 100; i++) {
-			int rand = (int)(Math.random() * 49999 + 1);
-			randList.add(rand);
+			int rand = (int) (Math.random() * 49999 + 1);
+			randInts.add(rand);
 		}
 		
 		// Create sets 
-		DynamicSet<Integer> linkedList = new DLL<>();
+		DLL<Integer> linkedList = new DLL<>();
 		BST<Integer> binaryTree = new BST<>();
 		
-		// Add values to DLL dynamic set
-		System.out.println("\nAdding values to DLL. . .");
-		for(int val : fileData) {
-			linkedList.add(val);
-		}
+		addData(fileData, linkedList);
+		addData(fileData, binaryTree);
 		
-		// Add values to BST dynamic set
-		System.out.println("\nAdding values to BST. . .");
-		for(int val : fileData) {
-			binaryTree.add(val);
-		}
-		
-		System.out.println("\nHeight of BST: "+ binaryTree.getHeight());
-		System.out.println("\nSize of BST: "+ binaryTree.setSize());
-		System.out.println("\nSize of DLL: "+ linkedList.setSize());
-		
+
+		System.out.println("\nPART 2");
 		
 		// compare the two implementations of dynamic set
 		double avgDLL, avgBST;
 		
-		avgDLL = calculateRunningTime(linkedList, randList);
-		avgBST = calculateRunningTime(binaryTree, randList);
+		avgDLL = calculateRunningTime(linkedList, randInts);
+		avgBST = calculateRunningTime(binaryTree, randInts);
 		
-		System.out.println("\nDLL average time: " + avgDLL);
-		System.out.println("\nBST average time: " + avgBST);
+		System.out.println("\n2a)");
+		System.out.println("DLL average time: " + avgDLL);
+		System.out.println("BST average time: " + avgBST);
+		
+		System.out.println("\n2b)");
+		System.out.println("Size of DLL: "+ linkedList.setSize());
+		System.out.println("Size of BST: "+ binaryTree.setSize());
+		
+		System.out.println("\n2c)");
+		System.out.println("Height of BST: "+ binaryTree.getHeight());
+		
+		
+		// testing
+		
+		System.out.println();
+		
+		List<Integer> fileData2 = getFileData("int10.txt");
+		List<Integer> fileData3 = getFileData("int10-2.txt");
+		
+		DLL<Integer> linkedList2 = new DLL<>();
+		DLL<Integer> linkedList3 = new DLL<>();
+		BST<Integer> binaryTree2 = new BST<>();
+		BST<Integer> binaryTree3 = new BST<>();
+		
+		addData(fileData2, linkedList2);
+		addData(fileData3, linkedList3);
+		addData(fileData2, binaryTree2);
+		addData(fileData3, binaryTree3);
+		
+		System.out.println();
+		System.out.println(linkedList2.union(linkedList3).setSize());
+		System.out.println(linkedList2.intersection(linkedList3).setSize());
+		System.out.println(linkedList2.difference(linkedList3).setSize());
+		System.out.println(linkedList2.subset(linkedList3));
+		
+		System.out.println();
+		System.out.println(binaryTree2.union(binaryTree3).setSize());
+		System.out.println(binaryTree2.intersection(binaryTree3).setSize());
+		System.out.println(binaryTree2.difference(binaryTree3).setSize());
+		System.out.println(binaryTree2.subset(binaryTree3));
+	}
+	
+	private static void addData(List<Integer> data, DynamicSet<Integer> structure) {
+		for(int val : data) {
+			structure.add(val);
+		}	
 	}
 	
 	private static double calculateRunningTime(DynamicSet<Integer> set, List<Integer> randomInts) {

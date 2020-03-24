@@ -3,6 +3,7 @@ package bst;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import dll.DLL;
 import main.DynamicSet;
 
 public class BST<T extends Comparable<T>> implements DynamicSet<T> {
@@ -17,6 +18,12 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	 * @param z
 	 */
 	public void add(T key) {
+		// if no nodes add as root
+		if (root == null) {
+			root = new Node<T>(key);
+			return;
+		}
+		
 		Node<T> z = new Node<T>(key);
 		Node<T> y = null;
 		Node<T> x = root;
@@ -125,10 +132,16 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	 * @param T
 	 * @return
 	 */
-	public DynamicSet<T> union(DynamicSet<T> T) {
+	public DynamicSet<T> union(DynamicSet<T> otherSet) {
 		DynamicSet<T> setUnion = new BST<>();
 
-		setUnion = union(setUnion, T);
+		for(T val : this) {
+			setUnion.add(val);
+		}
+			
+		for(T val : otherSet) {
+			setUnion.add(val);	
+		}
 				
 		return setUnion;
 	}
@@ -142,8 +155,14 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	public DynamicSet<T> intersection(DynamicSet<T> T) {
 		DynamicSet<T> setIntersection = new BST<>();
 		
-		setIntersection = intersection(setIntersection, T);
-		
+		for(T val : this) {
+			for(T val2 : T) {
+				if (val.compareTo(val2) == 0) {
+					setIntersection.add(val);
+				}
+			}
+		}
+
 		return setIntersection;
 	}
 		
@@ -155,10 +174,43 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	 */
 	public DynamicSet<T> difference(DynamicSet<T> T) {
 		DynamicSet<T> setDifference = new BST<>();
+		boolean isPresent = false;
 		
-		setDifference = difference(setDifference, T);
+		for(T val : this) {
+			for(T val2 : T) {
+				if (val.compareTo(val2) == 0) {
+					isPresent = true;
+				}
+			}
+			if (!isPresent) {
+				setDifference.add(val);
+			} else {
+				isPresent = false;
+			}
+		}
 		
 		return setDifference;
+	}
+	
+	public boolean subset(DynamicSet<T> otherSet) {
+		// If S is larger than T, S cannot be a subset of T - return false
+		if (this.setSize() > otherSet.setSize()) { return false; }
+		
+		boolean isPresent = false;
+		
+		for (T n : this) {
+			for (T x : otherSet) {
+				if (n.compareTo(x) == 0) {
+					isPresent = true;
+				}				
+			}
+			if (!isPresent) {
+				return false;
+			}
+		}
+		
+		// If all elements are present, return true
+		return true;
 	}
 		
 	/**
@@ -232,42 +284,44 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 			return search(x.getRight(), key);
 		}
 	}
-
 	
-	/**
-	 * Iterator class
-	 */
 	@Override
 	public Iterator<T> iterator() {
 
-		return new TreeIterator<T>(this);
+		return new MyIterator<T>(this);
 	}
 
-	private class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
-		Node<E> cursor;
+	/**
+	 * An iterator that facilitates set operations follows a preorder
+	 * prevents degenerate tree in union
+	 * 
+	 * @param <E> the type of the elements in the iterator
+	 */
+	private class MyIterator<E extends Comparable<E>> implements Iterator<E> {
+		DLL<Node<E>> nodes = new DLL<>();
 		
 		@SuppressWarnings("unchecked")
-		public TreeIterator(BST<E> arg) {
-			cursor = (BST<T>.Node<E>) arg.root;
+		public MyIterator(BST<E> arg) {
+			nodes.add((BST<T>.Node<E>) arg.root);
 		}
 		
 		@Override
 		public boolean hasNext() {
-			return cursor != null;
+			return !nodes.isEmpty();
 		}
-		
+
 		@Override
 		public E next() {
-			E data = cursor.getElement();
-			
-			if (cursor.getLeft() != null) {
-				cursor = cursor.getLeft();
-			} else if (cursor.getRight() != null) {
-				cursor = cursor.getRight();
-			} else {
-				cursor = null;
+			dll.DLL.Node<BST<T>.Node<E>> current = nodes.popHead();
+
+			if (current.getElement().hasRight()) {
+				nodes.add(current.getElement().getRight());
 			}
-			return data;
+			if (current.getElement().hasLeft()) {
+				nodes.add(current.getElement().getLeft());
+			}
+			
+			return current.getElement().getElement();
 		}
 	}
 	
@@ -294,28 +348,6 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 		
 	    public boolean hasLeft() 		{ return left != null; }
 	    public boolean hasRight() 		{ return right != null; }
+	    public boolean hasParent() 		{ return parent != null; }
 	}
-
-	
-	/**
-	 * prints the entire tree using an in order traversal
-	 */
-	public void printInOrder() {
-		printInOrder(root);
-	}
-
-	/**
-	 * prints the tree through an in order traversal beneath the node t
-	 * prints an in order sequence of elements if the tree preserves the bst
-	 *  property
-	 * @param t the node to start from
-	 */
-	private void printInOrder(Node t) {
-		if (t == null)
-			return;
-		printInOrder(t.getLeft());
-		System.out.println(t.getElement());
-		printInOrder(t.getRight());
-	}
-	
 }
