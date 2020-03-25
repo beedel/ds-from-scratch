@@ -118,7 +118,6 @@ public class DLL<T> implements DynamicSet<T> {
 	/**
 	 * Find the union of the two sets.
 	 */
-	@Override
 	public DynamicSet<T> union(DynamicSet<T> otherSet) {
 		DynamicSet<T> setUnion = new DLL<>();
 		
@@ -138,7 +137,6 @@ public class DLL<T> implements DynamicSet<T> {
 	/**
 	 * Find the intersection of the two sets.
 	 */
-	@Override
 	public DynamicSet<T> intersection(DynamicSet<T> otherSet) {
 		DynamicSet<T> setIntersection = new DLL<>();
 		
@@ -156,7 +154,6 @@ public class DLL<T> implements DynamicSet<T> {
 	/**
 	 * Find the difference of the two sets.
 	 */
-	@Override
 	public DynamicSet<T> difference(DynamicSet<T> otherSet) {
 		DynamicSet<T> setDifference = new DLL<>();
 		
@@ -195,6 +192,7 @@ public class DLL<T> implements DynamicSet<T> {
 	 *
 	 * @param <E> generic type to be stored in a node
 	 */	
+	@Override
 	public Iterator<T> iterator() {
 		return new MyIterator<T>(this);
 	}
@@ -255,12 +253,10 @@ public class DLL<T> implements DynamicSet<T> {
 	 * 
 	 * @return		The next node
 	 */
-	public Node<T> popHead() {
-		if(head == null) {
-			return null;
-		}
-		Node<T> out = head;
+	public Node<T> getNextNode() {
+		if (head == null) { return null; }
+		Node<T> next = head;
 		head = head.getNext();
-		return out;
+		return next;
 	}
 }

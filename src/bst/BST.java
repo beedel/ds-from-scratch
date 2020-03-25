@@ -24,16 +24,16 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	 * Add an element to a BST.
 	 */
 	public void add(T key) {
-
 		Node<T> z = new Node<T>(key);
 		Node<T> y = null;
 		Node<T> x = root;
 		
 		while (x != null) {
 			y = x;
-			// check for duplicates
-			if (z.getElement().compareTo(x.getElement()) == 0) return;
+			// If such an element already exists, do nothing
+			if (z.getElement().compareTo(x.getElement()) == 0) { return; }
 			
+			// Get left or right child depending on the value of the element
 			if (z.getElement().compareTo(x.getElement()) < 0) { 
 				x = x.getLeft();
 			} else { 
@@ -42,6 +42,7 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 		}
 		
 		z.setParent(y);
+		// Update pointers of the node next to the received element
 		if (y == null) { 
 			root = z;
 		} else if (z.getElement().compareTo(y.getElement()) < 0) { 
@@ -53,12 +54,13 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	
 	/**
 	 * Delete an element from a BST.
-	 * @param z
 	 */
 	public void remove(T key) {
-		// fix this, should find it
 		Node<T> n = search(key);
-		if (n == null) return;
+		// If such a node does not exists, do nothing
+		if (n == null) { return; }
+		
+		// Transplant the trees depending on whether the node has nodes to its left/right 
 		if (!n.hasLeft()) {
 			transplant(n, n.getRight());
 		} else if (!n.hasRight()) {
@@ -82,7 +84,7 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	 * @param u
 	 * @param v
 	 */
-	public void transplant(Node<T> u, Node<T> v) {
+	private void transplant(Node<T> u, Node<T> v) {
 		if (u.getParent() == null) {
 			root = v;
 		} else if (u == u.getParent().getLeft()) {
@@ -97,158 +99,9 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 
 	/**
 	 * Check if an element is present in a BST.
-	 * @param key
-	 * @return
 	 */
 	public boolean isElement(T key) {
 		return search(key) != null;
-	}
-	
-	/**
-	 * Check if a BST is empty.
-	 * @return
-	 */
-	public boolean isEmpty() { 
-		return setSize() == 0; 
-	}
-	
-	/**
-	 * Get the size of a given BST.
-	 * @return
-	 */
-	public int setSize() { 
-		return setSize(root); 
-	}
-	
-	private int setSize(Node<T> x) {
-		if (x == null) {
-			return 0;
-		} 
-		return 1 + setSize(x.getLeft()) + setSize(x.getRight());
-	}
-	
-	/**
-	 * Returns the union of two sets.
-	 * 
-	 * @param S
-	 * @param T
-	 * @return
-	 */
-	public DynamicSet<T> union(DynamicSet<T> otherSet) {
-		DynamicSet<T> setUnion = new BST<>();
-
-		for(T val : this) {
-			setUnion.add(val);
-		}
-			
-		for(T val : otherSet) {
-			setUnion.add(val);	
-		}
-				
-		return setUnion;
-	}
-
-	/**
-	 * Returns the intersection of two sets.
-	 * @param S
-	 * @param T
-	 * @return
-	 */
-	public DynamicSet<T> intersection(DynamicSet<T> T) {
-		DynamicSet<T> setIntersection = new BST<>();
-		
-		for(T val : this) {
-			if (T.isElement(val)) {
-				setIntersection.add(val);
-			}
-
-		}
-
-		return setIntersection;
-	}
-		
-	/**
-	 * Returns the difference of two sets.
-	 * @param S
-	 * @param T
-	 * @return
-	 */
-	public DynamicSet<T> difference(DynamicSet<T> T) {
-		DynamicSet<T> setDifference = new BST<>();
-		
-		for(T val : this) {
-			if (!T.isElement(val)) {
-				setDifference.add(val);
-			}
-		}
-		
-		return setDifference;
-	}
-	
-	public boolean subset(DynamicSet<T> otherSet) {
-		// If S is larger than T, S cannot be a subset of T - return false
-		if (this.setSize() > otherSet.setSize()) { return false; }
-		
-		for (T n : this) {
-			if (!otherSet.isElement(n)) {
-				return false;
-			}
-		}
-		
-		// If all elements are present, return true
-		return true;
-	}
-		
-	/**
-	 * Return the height of a given BST.
-	 * @return
-	 */
-	public int getHeight() {
-		return getHeight(root);
-	}
-	
-	private int getHeight(Node<T> x) {
-		if (x == null) {
-			return 0;
-		} 
-		if (!x.hasLeft() && !x.hasRight()) {
-			return 0;
-		}
-		return 1 + Math.max(getHeight(x.getLeft()), getHeight(x.getRight()));
-	}
-	
-	/**
-	 * Find the minimum value.
-	 * @param x
-	 * @return
-	 */
-	public Node<T> min() {
-		if (isEmpty()) throw new NoSuchElementException("Empty BST");
-		return min(root);
-	}
-	
-	private Node<T> min(Node<T> x) {
-		while (x.hasLeft()) {
-			x = x.getLeft();
-		}
-		return x;
-	}
-
-	/**
-	 * Find the maximum value.
-	 * @param x
-	 * @return
-	 */
-	public Node<T> max() {
-		if (isEmpty()) throw new NoSuchElementException("Empty BST");
-		return max(root);
-	}
-	
-	private Node<T> max(Node<T> x) {
-		while (x.hasRight()) {
-			x = x.getRight();
-		}
-		return x;
 	}
 	
 	/**
@@ -258,51 +111,185 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	 */
 	
 	public Node<T> search(T key) {
-		Node<T> cursor = root;
+		Node<T> n = root;
 
-		while (cursor != null && !(cursor.key.compareTo(key) == 0)) {
-			int val = cursor.key.compareTo(key);
-			if (val < 0) {
-				cursor = cursor.right;
+		// While there are still nodes and while the element is not found
+		while (n != null && !(n.getElement().compareTo(key) == 0)) {
+			int check = n.getElement().compareTo(key);
+			// If the element is larger than the current node element, go right
+			if (check < 0) {
+				n = n.getRight();
 			}
-			if (val > 0) {
-				cursor = cursor.left;
+			// If the element is smaller than the current node element, go left
+			if (check > 0) {
+				n = n.getLeft();
 			}
 		}
-		return cursor;
+		return n;
 	}
 	
-	@Override
-	public Iterator<T> iterator() {
+	/**
+	 * Check if a BST is empty.
+	 */
+	public boolean isEmpty() { 
+		return setSize() == 0; 
+	}
+	
+	/**
+	 * Get the size of a given BST.
+	 */
+	public int setSize() { 
+		return setSize(root); 
+	}
+	
+	/**
+	 * Helper method for setSize().
+	 */
+	private int setSize(Node<T> x) {
+		if (x == null) { return 0; } 
+		return 1 + setSize(x.getLeft()) + setSize(x.getRight());
+	}
+	
+	/**
+	 * Find the union of the two sets.
+	 */
+	public DynamicSet<T> union(DynamicSet<T> otherSet) {
+		DynamicSet<T> setUnion = new BST<>();
 
-		return new MyIterator<T>(this);
+		// Add all elements in the caller set.
+		for(T val : this) {
+			setUnion.add(val);
+		}
+			
+		// Add all elements in the given set (duplicates are not added).
+		for(T val : otherSet) {
+			setUnion.add(val);	
+		}
+				
+		return setUnion;
 	}
 
 	/**
-	 * An iterator that facilitates set operations follows a preorder
-	 * prevents degenerate tree in union
+	 * Find the intersection of the two sets.
+	 */
+	public DynamicSet<T> intersection(DynamicSet<T> otherSet) {
+		DynamicSet<T> setIntersection = new BST<>();
+		
+		// For all elements in the caller set
+		for(T val : this) {
+			// If an element is present in the given set
+			if(otherSet.isElement(val)) {
+				setIntersection.add(val);
+			}
+		}
+		
+		return setIntersection;
+	}
+		
+	/**
+	 * Find the difference of the two sets.
+	 */
+	public DynamicSet<T> difference(DynamicSet<T> otherSet) {
+		DynamicSet<T> setDifference = new BST<>();
+		
+		// For all elements in the caller set
+		for(T val : this) {
+			// If an element is not present in the given set
+			if(!otherSet.isElement(val)) {
+				setDifference.add(val);
+			}
+		}
+		
+		return setDifference;
+	}
+	
+	/**
+	 * Check if this set is a subset of a given set.
+	 */
+	public boolean subset(DynamicSet<T> otherSet) {
+		// If the caller set is larger than otherSet, it cannot be a subset of otherSet - return false
+		if (this.setSize() > otherSet.setSize()) { return false; }
+		
+		// For all elements in the caller set
+		for (T n : this) {
+			// If an element is not present in the other set, return false
+			if (!otherSet.isElement(n)) { return false; }
+		}
+		
+		// If all elements are present, return true
+		return true;
+	}
+		
+	/**
+	 * Get the height of a given BST.
+	 */
+	public int getHeight() {
+		return getHeight(root);
+	}
+	
+	/**
+	 * Helper method for getHeight().
+	 */
+	private int getHeight(Node<T> x) {
+		// If the node is empty, return 0
+		if (x == null) { return 0; } 
+		// If the root node has no left and right nodes, return 0
+		if (!x.hasLeft() && !x.hasRight()) { return 0; }
+		return 1 + Math.max(getHeight(x.getLeft()), getHeight(x.getRight()));
+	}
+	
+	/**
+	 * Find the minimum value of a BST.
+	 */
+	public Node<T> min() {
+		if (isEmpty()) throw new NoSuchElementException("Empty BST");
+		return min(root);
+	}
+	
+	/**
+	 * Helper method for min().
+	 */
+	private Node<T> min(Node<T> x) {
+		while (x.hasLeft()) {
+			x = x.getLeft();
+		}
+		return x;
+	}
+
+	/**
+	 * Iterator class for looping through BST values.
 	 * 
+	 * Uses DLL to loop through the values.
+	 * 
+	 * Inspiration taken from:
 	 * https://javarevisited.blogspot.com/2016/07/binary-tree-preorder-traversal-in-java-using-recursion-iteration-example.html
 	 * 
-	 * @param <E> the type of the elements in the iterator
-	 */
+	 * @author Tomas Mikus, 2473026m
+	 *
+	 * @param <E> generic type to be stored in a node
+	 */	
+	@Override
+	public Iterator<T> iterator() {
+		return new MyIterator<T>(this);
+	}
+
 	private class MyIterator<E extends Comparable<E>> implements Iterator<E> {
 		DLL<Node<E>> nodes = new DLL<>();
 		
-		@SuppressWarnings("unchecked")
-		public MyIterator(BST<E> arg) {
-			nodes.add((BST<T>.Node<E>) arg.root);
+		public MyIterator(BST<E> bst) {
+			// Start from root
+			nodes.add(bst.root);
 		}
 		
-		@Override
 		public boolean hasNext() {
 			return !nodes.isEmpty();
 		}
-
-		@Override
+		
 		public E next() {
-			dll.DLL.Node<BST<T>.Node<E>> current = nodes.popHead();
+			// Get the next node
+			dll.DLL.Node<Node<E>> current = nodes.getNextNode();
 
+			// Add the left and right nodes to the "stack"
 			if (current.getElement().hasRight()) {
 				nodes.add(current.getElement().getRight());
 			}
@@ -310,11 +297,19 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 				nodes.add(current.getElement().getLeft());
 			}
 			
+			// Return the next element
 			return current.getElement().getElement();
 		}
 	}
 	
-	private class Node<T> {
+	/**
+	 * Node class to be used by the BST.
+	 * 
+	 * @author Tomas Mikus, 2473026m
+	 *
+	 * @param <T> generic type to be stored in a node
+	 */
+	private static class Node<T> {
 		private T key;
 		private Node<T> left, right, parent;
 		
@@ -330,13 +325,11 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	    public Node<T> getRight()		{ return right; }
 	    public Node<T> getParent()		{ return parent; }
 
-	    public void setElement(T e) 			{ key = e; }
 	    public void setLeft(Node<T> node) 		{ left = node; if (node != null) node.setParent(this); }
 	    public void setRight(Node<T> node) 		{ right = node; if (node != null) node.setParent(this); }
 	    public void setParent(Node<T> node) 	{ parent = node; }  
 		
 	    public boolean hasLeft() 		{ return left != null; }
 	    public boolean hasRight() 		{ return right != null; }
-	    public boolean hasParent() 		{ return parent != null; }
 	}
 }
