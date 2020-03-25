@@ -49,7 +49,7 @@ public class DLL<T> implements DynamicSet<T> {
 		Node<T> x = search(key);
 		
 		// If not, do nothing
-		if (x == null) return;
+		if (x == null) { return; }
 		
 		// If x is not the head, update the pointer to the next value for the element before x
 		if (x.getPrev() != null) {
@@ -205,13 +205,11 @@ public class DLL<T> implements DynamicSet<T> {
 			n = dll.head;		
 		}
 
-		@Override
 		public boolean hasNext() {
 			// If n is null, that means we reached the end of the DLL
 			return n != null;
 		}
 
-		@Override
 		public E next() {
 			// Get the next element
 			E data = n.getElement();

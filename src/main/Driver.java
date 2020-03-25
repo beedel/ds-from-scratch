@@ -95,16 +95,17 @@ public class Driver {
 //		System.out.println(binaryTree2.subset(binaryTree3));
 //
 //		// remove existing value
+//		System.out.println();
 //		linkedList2.remove(2);
-//		System.out.println(linkedList.setSize());
+//		System.out.println(linkedList2.setSize());
 //		binaryTree2.remove(2);
-//		System.out.println(binaryTree.setSize());
+//		System.out.println(binaryTree2.setSize());
 //		
 //		// remove non-existent value
 //		linkedList2.remove(20);
-//		System.out.println(linkedList.setSize());
+//		System.out.println(linkedList2.setSize());
 //		binaryTree2.remove(20);
-//		System.out.println(binaryTree.setSize());
+//		System.out.println(binaryTree2.setSize());
 	}
 	
 	/**

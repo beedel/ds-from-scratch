@@ -1,83 +1,77 @@
 package ds;
 
+/**
+ * A dynamic set interface to be implemented by DLL and BST.
+ * Provides the methods to be implemented by these classes.
+ * 
+ * @author Tomas Mikus, 2473026m
+ *
+ * @param <T> generic type to be stored in a node
+ */
 public interface DynamicSet<T> extends Iterable<T> {
-
 	/**
-	 * adds the element t to the dynamic set
+	 * Add an element to a set.
 	 * 
-	 * @param t the element to add to the set
+	 * @param key		Element to be added
 	 */
-	public void add(T t);
-	
+	public void add(T key);
 	
 	/**
-	 * removes the given element from the set if it exists
+	 * Remove an element from a set.
 	 * 
-	 * @param t the element to remove 
+	 * @param key		Element to be removed
 	 */
-	public void remove(T t);
+	public void remove(T key);
 	
 	/**
-	 * returns whether the element is present in the set
-	 * 
-	 * @param t the element to test presence
-	 * @return whether the element is present in the set
+	 * Check if an element is present in a set.
+	 * @param key 		Element to be searched for
+	 * @return			True if element is present, false if not
 	 */
-	public boolean isElement(T t);
-	
+	public boolean isElement(T key);
 	
 	/**
-	 * returns whether there are no elements present in the set
-	 * 
-	 * @return whether there are no elements present
+	 * Check if the set is empty.
+	 * @return			True if the set is empty, false if not
 	 */
 	public boolean isEmpty();
 	
-	/**
-	 * returns the number of elements in the set
+	/** 
+	 * Get the size of a set.
 	 * 
-	 * @return the number of elements in the adt
+	 * @return 			The size of a set
 	 */
 	public int setSize();
 	
-	//set theoretical operations
-	
 	/**
-	 * returns the union of the two sets, no changes are made to the underlying
-	 * dynamic sets using the underlying type
-	 * of the callee method
+	 * Return the union of the caller set and the given set.
 	 * 
-	 * @param arg the dynamic set to be unionised
-	 * @return the union of the two sets using the concrete implementation of
-	 * the object it was called on
+	 * @param otherSet		Dynamic set
+	 * @return				Union of the two sets
 	 */
 	public DynamicSet<T> union(DynamicSet<T> otherSet);
 	
 	/**
-	 * returns the intersection of two dynamic sets using the underlying type
-	 * of the callee method
+	 * Return the intersection of the caller set and the given set.
 	 * 
-	 * @param arg the dynamic set to be intersected with
-	 * @return the intersection of the called upon set and its argument
+	 * @param otherSet		Dynamic set
+	 * @return				intersection of the two sets
 	 */
 	public DynamicSet<T> intersection(DynamicSet<T> otherSet);
 	
-	/**retruns the set difference of this object and its arguement
-	 * (in this set or the arguement, not both)
+	/**
+	 * Return the difference of the caller set and the given set.
 	 * 
-	 * 
-	 * @param arg the set to compared for set difference
-	 * @return the difference of the two sets
+	 * @param otherSet		Dynamic set
+	 * @return				Difference of the two sets
 	 */
 	public DynamicSet<T> difference(DynamicSet<T> otherSet);
 	
 	/**
-	 * returns whether the argument is a subset of this object 
-	 * (in implementation) using the underlying type
-	 * of the callee method
+	 * Check if the caller set is a subset of a given set.
 	 * 
-	 * @param arg the test to be a subset 
-	 * @return whether arg is a subset of this
+	 * @param otherSet		Dynamic set
+	 * @return				True if it is a subset, false if not
 	 */
 	public boolean subset(DynamicSet<T> otherSet);
 }
