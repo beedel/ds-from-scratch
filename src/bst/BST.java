@@ -22,15 +22,9 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	
 	/**
 	 * Add an element to a BST.
-	 * @param z
 	 */
 	public void add(T key) {
-		// if no nodes add as root
-		if (root == null) {
-			root = new Node<T>(key);
-			return;
-		}
-		
+
 		Node<T> z = new Node<T>(key);
 		Node<T> y = null;
 		Node<T> x = root;

@@ -25,7 +25,7 @@ public class DLL<T> implements DynamicSet<T> {
 	 */
 	public void add (T key) {
 		// If no element has been passed or if the element already exists, do nothing
-		if (key == null || this.search(key) != null) return;
+		if (key == null || this.isElement(key)) { return; }
 		
 		Node<T> x = new Node<>(key);
 		
@@ -84,7 +84,7 @@ public class DLL<T> implements DynamicSet<T> {
 		Node<T> n = head;
 		
 		// While there are still nodes and while the node with given element is not found
-		while (n != null && n.getElement() != key) {
+		while (n != null && !n.getElement().equals(key)) {
 			// Get the next node
 			n = n.getNext();
 		}
@@ -202,9 +202,9 @@ public class DLL<T> implements DynamicSet<T> {
 	private class MyIterator<E> implements Iterator<E> {
 		Node<E> n;
 		
-		public MyIterator(DLL<E> arg){
+		public MyIterator(DLL<E> dll){
 			// Start with the head of a DLL
-			n = arg.head;		
+			n = dll.head;		
 		}
 
 		@Override
