@@ -1,4 +1,4 @@
-package main;
+package ds;
 
 public interface DynamicSet<T> extends Iterable<T> {
 

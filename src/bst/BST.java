@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import dll.DLL;
-import main.DynamicSet;
+import ds.DynamicSet;
 
 public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	private Node<T> root; 
@@ -280,6 +280,8 @@ public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	/**
 	 * An iterator that facilitates set operations follows a preorder
 	 * prevents degenerate tree in union
+	 * 
+	 * https://javarevisited.blogspot.com/2016/07/binary-tree-preorder-traversal-in-java-using-recursion-iteration-example.html
 	 * 
 	 * @param <E> the type of the elements in the iterator
 	 */

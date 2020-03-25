@@ -2,7 +2,7 @@ package dll;
 
 import java.util.Iterator;
 
-import main.DynamicSet;
+import ds.DynamicSet;
 
 public class DLL<T> implements DynamicSet<T> {
 	private Node<T> head;
