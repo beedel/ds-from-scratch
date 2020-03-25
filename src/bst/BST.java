@@ -6,6 +6,13 @@ import java.util.NoSuchElementException;
 import dll.DLL;
 import ds.DynamicSet;
 
+/**
+ * A dynamic set implementation using a binary search tree.
+ * 
+ * @author Tomas Mikus, 2473026m
+ *
+ * @param <T> generic type to be stored in a node
+ */
 public class BST<T extends Comparable<T>> implements DynamicSet<T> {
 	private Node<T> root; 
 	
