@@ -47,8 +47,8 @@ public class Driver {
 		double avgDLL, avgBST;
 		avgDLL = calculateRunningTime(linkedList, randInts);
 		avgBST = calculateRunningTime(binaryTree, randInts);
-		System.out.println("DLL average time: " + avgDLL);
-		System.out.println("BST average time: " + avgBST);
+		System.out.println("DLL average time (ns): " + avgDLL);
+		System.out.println("BST average time (ns): " + avgBST);
 		
 		System.out.println("\n2b)");
 		System.out.println("Size of DLL: "+ linkedList.setSize());
@@ -58,54 +58,63 @@ public class Driver {
 		System.out.println("Height of BST: "+ ((BST<Integer>) binaryTree).getHeight());
 		
 		
-//		// testing
-//		
-//		System.out.println();
-//		
-//		
-//		// Read file data 
-//		List<Integer> fileData2 = getFileData("int10.txt");
-//		List<Integer> fileData3 = getFileData("int10-2.txt");
-//	
-//		// create DLLs and BSTs for testing
-//		DynamicSet<Integer> linkedList2 = new DLL<>();
-//		DynamicSet<Integer> linkedList3 = new DLL<>();
-//		DynamicSet<Integer> binaryTree2 = new BST<>();
-//		DynamicSet<Integer> binaryTree3 = new BST<>();
-//	
-//		
-//		// add file data to created dynamic sets
-//		addData(fileData2, linkedList2);
-//		addData(fileData3, linkedList3);
-//		addData(fileData2, binaryTree2);
-//		addData(fileData3, binaryTree3);
-//	
-//		// check set operations for a DLL dynamic set implementation
-//		System.out.println();
-//		System.out.println(linkedList2.union(linkedList3).setSize());
-//		System.out.println(linkedList2.intersection(linkedList3).setSize());
-//		System.out.println(linkedList2.difference(linkedList3).setSize());
-//		System.out.println(linkedList2.subset(linkedList3));
-//
-//		// check set operations for a BST dynamic set implementation
-//		System.out.println();
-//		System.out.println(binaryTree2.union(binaryTree3).setSize());
-//		System.out.println(binaryTree2.intersection(binaryTree3).setSize());
-//		System.out.println(binaryTree2.difference(binaryTree3).setSize());
-//		System.out.println(binaryTree2.subset(binaryTree3));
-//
-//		// remove existing value
-//		System.out.println();
-//		linkedList2.remove(2);
-//		System.out.println(linkedList2.setSize());
-//		binaryTree2.remove(2);
-//		System.out.println(binaryTree2.setSize());
-//		
-//		// remove non-existent value
-//		linkedList2.remove(20);
-//		System.out.println(linkedList2.setSize());
-//		binaryTree2.remove(20);
-//		System.out.println(binaryTree2.setSize());
+		// Testing
+		
+		System.out.println("\n\nTESTING\n");
+	
+		// Create DLLs and BSTs for testing
+		DynamicSet<Integer> linkedList2 = new DLL<>();
+		DynamicSet<Integer> linkedList3 = new DLL<>();
+		DynamicSet<Integer> binaryTree2 = new BST<>();
+		DynamicSet<Integer> binaryTree3 = new BST<>();
+	
+		
+		// Add values to dynamic sets
+		linkedList2.add(1);
+		linkedList2.add(2);
+		linkedList2.add(3);
+		linkedList2.add(4);
+		linkedList2.add(5);
+		linkedList2.add(6);
+		
+		linkedList3.add(1);
+		linkedList3.add(2);
+		linkedList3.add(8);
+		
+		binaryTree2.add(1);
+		binaryTree2.add(2);
+		binaryTree2.add(3);
+		binaryTree2.add(4);
+		binaryTree2.add(5);
+		binaryTree2.add(6);
+		
+		binaryTree3.add(1);
+		binaryTree3.add(2);
+		binaryTree3.add(8);		
+	
+		// Check set operations for a DLL dynamic set implementation
+		System.out.println("LINKED LISTS\n");
+		System.out.println("Size of dynamic set 1: " + linkedList2.setSize());
+		System.out.println("Size of dynamic set 2: " + linkedList3.setSize());
+		System.out.println("Size of their union: " + linkedList2.union(linkedList3).setSize());
+		System.out.println("Size of their intersection: " + linkedList2.intersection(linkedList3).setSize());
+		System.out.println("Size of their difference: " + linkedList2.difference(linkedList3).setSize());
+		System.out.println("Set 1 subset of set 2?: " + linkedList2.subset(linkedList3));
+		linkedList3.remove(8);
+		System.out.println("Remove 8 from set 2, size after removal: " + linkedList3.setSize());
+		System.out.println("Set 2 subset of set 1?: " + linkedList3.subset(linkedList2));
+
+		// Check set operations for a BST dynamic set implementation
+		System.out.println("\nBINARY SEARCH TREES\n");
+		System.out.println("Size of dynamic set 1: " + binaryTree2.setSize());
+		System.out.println("Size of dynamic set 2: " + binaryTree3.setSize());
+		System.out.println("Size of their union: " + binaryTree2.union(binaryTree3).setSize());
+		System.out.println("Size of their intersection: " + binaryTree2.intersection(binaryTree3).setSize());
+		System.out.println("Size of their difference: " + binaryTree2.difference(binaryTree3).setSize());
+		System.out.println("Set 1 subset of set 2?: " + binaryTree2.subset(binaryTree3));
+		binaryTree3.remove(8);
+		System.out.println("Remove 8 from set 2, size after removal: " + binaryTree3.setSize());
+		System.out.println("Set 2 subset of set 1?: " + binaryTree3.subset(binaryTree2));
 	}
 	
 	/**

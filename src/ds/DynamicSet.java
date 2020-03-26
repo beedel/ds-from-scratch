@@ -52,12 +52,44 @@ public interface DynamicSet<T> extends Iterable<T> {
 	public DynamicSet<T> union(DynamicSet<T> otherSet);
 	
 	/**
+	 * Helper method to provide further code abstraction.			
+	 */
+	public default DynamicSet<T> union(DynamicSet<T> otherSet, DynamicSet<T> setUnion) {
+		// Add all elements in the caller set.
+		for(T val : this) {
+			setUnion.add(val);
+		}
+			
+		// Add all elements in the given set (duplicates are not added).
+		for(T val : otherSet) {
+			setUnion.add(val);	
+		}
+				
+		return setUnion;
+	}
+	
+	/**
 	 * Return the intersection of the caller set and the given set.
 	 * 
 	 * @param otherSet		Dynamic set
 	 * @return				intersection of the two sets
 	 */
 	public DynamicSet<T> intersection(DynamicSet<T> otherSet);
+	
+	/**
+	 * Helper method to provide further code abstraction.			
+	 */
+	public default DynamicSet<T> intersection(DynamicSet<T> otherSet, DynamicSet<T> setIntersection) {
+		// For all elements in the caller set
+		for(T val : this) {
+			// If an element is present in the given set
+			if(otherSet.isElement(val)) {
+				setIntersection.add(val);
+			}
+		}
+		
+		return setIntersection;
+	}
 	
 	/**
 	 * Return the difference of the caller set and the given set.
@@ -68,10 +100,37 @@ public interface DynamicSet<T> extends Iterable<T> {
 	public DynamicSet<T> difference(DynamicSet<T> otherSet);
 	
 	/**
+	 * Helper method to provide further code abstraction.			
+	 */
+	public default DynamicSet<T> difference(DynamicSet<T> otherSet, DynamicSet<T> setDifference) {
+		// For all elements in the caller set
+		for(T val : this) {
+			// If an element is not present in the given set
+			if(!otherSet.isElement(val)) {
+				setDifference.add(val);
+			}
+		}
+		
+		return setDifference;
+	}
+	
+	/**
 	 * Check if the caller set is a subset of a given set.
 	 * 
 	 * @param otherSet		Dynamic set
 	 * @return				True if it is a subset, false if not
 	 */
-	public boolean subset(DynamicSet<T> otherSet);
+	public default boolean subset(DynamicSet<T> otherSet) {
+		// If the caller set is larger than otherSet, it cannot be a subset of otherSet - return false
+		if (this.setSize() > otherSet.setSize()) { return false; }
+		
+		// For all elements in the caller set
+		for (T n : this) {
+			// If an element is not present in the other set, return false
+			if (!otherSet.isElement(n)) { return false; }
+		}
+		
+		// If all elements are present, return true
+		return true;
+	}
 }

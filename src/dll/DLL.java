@@ -121,15 +121,7 @@ public class DLL<T> implements DynamicSet<T> {
 	public DynamicSet<T> union(DynamicSet<T> otherSet) {
 		DynamicSet<T> setUnion = new DLL<>();
 		
-		// Add all elements in the caller set.
-		for(T val : this) {
-			setUnion.add(val);
-		}
-			
-		// Add all elements in the given set (duplicates are not added).
-		for(T val : otherSet) {
-			setUnion.add(val);	
-		}
+		setUnion = union(otherSet, setUnion);
 				
 		return setUnion;
 	}
@@ -140,13 +132,7 @@ public class DLL<T> implements DynamicSet<T> {
 	public DynamicSet<T> intersection(DynamicSet<T> otherSet) {
 		DynamicSet<T> setIntersection = new DLL<>();
 		
-		// For all elements in the caller set
-		for(T val : this) {
-			// If an element is present in the given set
-			if(otherSet.isElement(val)) {
-				setIntersection.add(val);
-			}
-		}
+		setIntersection = intersection(otherSet, setIntersection);
 		
 		return setIntersection;
 	}
@@ -157,32 +143,9 @@ public class DLL<T> implements DynamicSet<T> {
 	public DynamicSet<T> difference(DynamicSet<T> otherSet) {
 		DynamicSet<T> setDifference = new DLL<>();
 		
-		// For all elements in the caller set
-		for(T val : this) {
-			// If an element is not present in the given set
-			if(!otherSet.isElement(val)) {
-				setDifference.add(val);
-			}
-		}
+		setDifference = difference(otherSet, setDifference);
 		
 		return setDifference;
-	}
-	
-	/**
-	 * Check if this set is a subset of a given set.
-	 */
-	public boolean subset(DynamicSet<T> otherSet) {
-		// If the caller set is larger than otherSet, it cannot be a subset of otherSet - return false
-		if (this.setSize() > otherSet.setSize()) { return false; }
-		
-		// For all elements in the caller set
-		for (T n : this) {
-			// If an element is not present in the other set, return false
-			if (!otherSet.isElement(n)) { return false; }
-		}
-		
-		// If all elements are present, return true
-		return true;
 	}
 	
 	/**
@@ -251,7 +214,7 @@ public class DLL<T> implements DynamicSet<T> {
 	 * 
 	 * @return		The next node
 	 */
-	public Node<T> getNextNode() {
+	public Node<T> pop() {
 		if (head == null) { return null; }
 		Node<T> next = head;
 		head = head.getNext();
