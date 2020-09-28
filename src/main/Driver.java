@@ -21,7 +21,7 @@ public class Driver {
 	public static void main(String[] args) throws NumberFormatException, IOException {		
 		
 		// Read integers from a file into a list
-		List<Integer> fileData = getFileData("int20k.txt");
+		List<Integer> fileData = getFileData("files/int20k.txt");
 		// List for storing 100 random integers
 		List<Integer> randInts = new ArrayList<>(100);
 		
